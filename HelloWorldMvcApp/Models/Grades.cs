@@ -9,6 +9,8 @@ namespace HelloWorldMvcApp.Models
     public class Grades
 
     {
+        public int Id { get; set; }
+
         public int StudentID { get; set; }
 
         [Required]

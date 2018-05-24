@@ -9,9 +9,18 @@ namespace HelloWorldMvcApp.Controllers
 {
     public class GradesController : Controller
     {
+        private readonly HelloWorldContext _context;
+        
+        public GradesController(HelloWorldContext context)
+        {
+            _context = context;
+        }
+
+
         public IActionResult Index()
         {
-            return View();
+            var model = _context.Grades.ToList();
+            return View(model);
         }
         public IActionResult Create()
         {
@@ -26,6 +35,10 @@ namespace HelloWorldMvcApp.Controllers
             {
                 return View(model);
             }
+
+            _context.Add(model);
+            _context.SaveChanges();
+
             return View("Details", model);
         }
 

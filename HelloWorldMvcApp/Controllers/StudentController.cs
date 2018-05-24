@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq; //bring in class for grades
 using System.Threading.Tasks;
 using HelloWorldMvcApp.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -9,13 +9,22 @@ namespace HelloWorldMvcApp.Controllers
 {
     public class StudentController : Controller
     {
+        private readonly HelloWorldContext _context;
+
+        public StudentController(HelloWorldContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            var model = _context.Student.ToList();
+            return View(model);
         }
 
         public IActionResult Create()
         {
+           //initializing the model
             Student model = new Student();
 
             return View(model);
@@ -27,6 +36,12 @@ namespace HelloWorldMvcApp.Controllers
             {
                 return View(model);
             }
+
+            //save the data
+            _context.Add(model); //Adding the data to the context
+            _context.SaveChanges(); //Saving the data to the table
+
+
             return View("Details", model);
         }
 
